@@ -63,3 +63,80 @@ These steps should help you install all the necessary tools for the OMG embedded
 
 Catch2 is a header-only test framework for C++, so it doesn't need to be installed like traditional software. In this case, it will be automatically added as Git submodule and you can integrate it with CMake.
 
+---
+
+## PlatformIO
+To start an Arduino IDE project for the ESP32 with PlatformIO, you need to follow these steps:
+
+### 1. Install PlatformIO Core
+
+You should already have PlatformIO Core installed as a Visual Studio Code extension if you followed the previous guide. If not, please refer to the guide above to install it.
+
+### 2. Start a New Project
+
+- Open Visual Studio Code.
+- Click on the PlatformIO icon in the Activity Bar on the left side.
+- In the PlatformIO Home tab, click on "New Project".
+
+### 3. Configure the New Project
+
+- Enter a name for your project.
+- Select "Espressif ESP32 Dev Module" from the board list. If you have a different ESP32 module, select the one that matches your hardware.
+- Select "Arduino" as the framework.
+- Choose the location where you want the project to be saved.
+- Click "Finish".
+
+PlatformIO will set up a new project with the necessary configuration files and directory structure.
+
+### 4. Writing a Basic GPIO Program
+
+Here is an example of a basic GPIO program that blinks an LED connected to GPIO 2 on the ESP32, which is a common built-in LED pin for many development boards.
+
+First, navigate to the `src` directory of your PlatformIO project and create a file named `main.cpp` (PlatformIO should create this file by default). Then, write the following program:
+
+```cpp
+#include <Arduino.h>
+
+#define LED_PIN 2 // Use the correct pin number for your ESP32 board's built-in LED
+
+void setup() {
+  pinMode(LED_PIN, OUTPUT); // Initialize the LED pin as an output
+}
+
+void loop() {
+  digitalWrite(LED_PIN, HIGH); // Turn the LED on
+  delay(1000);                // Wait for a second
+  digitalWrite(LED_PIN, LOW);  // Turn the LED off
+  delay(1000);                // Wait for a second
+}
+```
+
+### 5. Build and Upload the Program
+
+- Save your `main.cpp` file.
+- Click on the PlatformIO icon in the Activity Bar.
+- Under the "Project Tasks" menu, expand your project's environment.
+- Click on "Build" to compile your project.
+- After the build process is successful, connect your ESP32 to the computer via USB.
+- Click on "Upload" to upload the program to your ESP32 board.
+
+If everything is set up correctly, the LED on your ESP32 board should start blinking.
+
+### Troubleshooting
+
+If you encounter any issues, make sure:
+
+- Your ESP32 board is connected to the correct USB port.
+- The correct drivers for the USB-to-Serial chip on your ESP32 board are installed on your computer.
+- The board and port settings in `platformio.ini` match your actual hardware configuration.
+
+The `platformio.ini` file should look something like this for an ESP32 Dev Module:
+
+```ini
+[env:esp32dev]
+platform = espressif32
+board = esp32dev
+framework = arduino
+```
+
+This file tells PlatformIO which board and framework to use when building your project. If you're using a different ESP32 board, you would replace `esp32dev` with the identifier for your specific board.
